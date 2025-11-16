@@ -26,7 +26,7 @@ export default function LoginPage() {
 
     try {
       const data = await loginRequest({ email, password });
-      const tokenFromApi = data?.token || data?.access_token;
+      const tokenFromApi = data?.token;
 
       if (!tokenFromApi) {
         setError('No se pudo obtener el token de autenticación.');
@@ -36,8 +36,11 @@ export default function LoginPage() {
       login(tokenFromApi);
       navigate('/tasks', { replace: true });
     } catch (err) {
-      const apiMessage = err?.response?.data?.message;
-      setError(apiMessage || 'Error al iniciar sesión. Revisa tus credenciales.');
+      if (err?.validation) {
+        setError(err.message || 'El correo y la contraseña son obligatorios.');
+      } else {
+        setError('Error al iniciar sesión. Inténtalo de nuevo.');
+      }
     } finally {
       stopLoading();
       setIsSubmitting(false);

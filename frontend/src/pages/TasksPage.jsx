@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth.js';
 import { useUi } from '../hooks/useUi.js';
 import {
-  fetchTasks,
+  getTasks,
   createTask,
   updateTask,
   deleteTask,
@@ -11,21 +11,21 @@ import {
 
 const STATUS_FILTERS = [
   { value: 'all', label: 'Todas' },
-  { value: 'pending', label: 'Pendientes' },
-  { value: 'in_progress', label: 'En progreso' },
-  { value: 'completed', label: 'Completadas' },
+  { value: 'pendiente', label: 'Pendientes' },
+  { value: 'en_progreso', label: 'En progreso' },
+  { value: 'completada', label: 'Completadas' },
 ];
 
 const STATUS_LABELS = {
-  pending: 'Pendiente',
-  in_progress: 'En progreso',
-  completed: 'Completada',
+  pendiente: 'Pendiente',
+  en_progreso: 'En progreso',
+  completada: 'Completada',
 };
 
 const STATUS_BADGE_CLASSES = {
-  pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-  in_progress: 'bg-blue-100 text-blue-800 border-blue-200',
-  completed: 'bg-green-100 text-green-800 border-green-200',
+  pendiente: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+  en_progreso: 'bg-blue-100 text-blue-800 border-blue-200',
+  completada: 'bg-green-100 text-green-800 border-green-200',
 };
 
 export default function TasksPage() {
@@ -37,7 +37,7 @@ export default function TasksPage() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [status, setStatus] = useState('pending');
+  const [status, setStatus] = useState('pendiente');
   const [error, setError] = useState('');
 
   const loadTasks = async (filter = statusFilter) => {
@@ -50,13 +50,47 @@ export default function TasksPage() {
         params.status = filter;
       }
 
-      const result = await fetchTasks(params);
-      // API envuelve la data como { success, message, data }
-      setTasks(Array.isArray(result?.data) ? result.data : []);
+      const response = await getTasks(params);
+      const result = response.data;
+      setTasks(Array.isArray(result) ? result : []);
     } catch (err) {
       console.error('Error al cargar tareas', err);
       const apiMessage = err?.response?.data?.message;
       setError(apiMessage || 'No se pudieron cargar las tareas.');
+    } finally {
+      stopLoading();
+    }
+  };
+
+  const handleEditTitle = async (task) => {
+    const currentTitle = task.title ?? '';
+    const newTitle = window.prompt('Nuevo título de la tarea:', currentTitle);
+
+    if (newTitle == null) {
+      return;
+    }
+
+    const trimmed = newTitle.trim();
+    if (!trimmed || trimmed === currentTitle) {
+      return;
+    }
+
+    startLoading();
+    setError('');
+
+    try {
+      const response = await updateTask(task.id, { title: trimmed });
+      const updatedTask = response.data;
+
+      setTasks((prev) =>
+        prev.map((t) =>
+          t.id === task.id ? updatedTask ?? { ...t, title: trimmed } : t,
+        ),
+      );
+    } catch (err) {
+      console.error('Error al actualizar título de tarea', err);
+      const apiMessage = err?.response?.data?.message;
+      setError(apiMessage || 'No se pudo actualizar el título de la tarea.');
     } finally {
       stopLoading();
     }
@@ -85,11 +119,10 @@ export default function TasksPage() {
         status,
       };
 
-      const result = await createTask(payload);
-      const newTask = result?.data;
+      const response = await createTask(payload);
+      const newTask = response.data;
 
       if (!newTask) {
-        // Si la API no devuelve la tarea, recargar lista completa
         await loadTasks('all');
       } else {
         setTasks((prev) => [newTask, ...prev]);
@@ -97,7 +130,7 @@ export default function TasksPage() {
 
       setTitle('');
       setDescription('');
-      setStatus('pending');
+      setStatus('pendiente');
     } catch (err) {
       console.error('Error al crear tarea', err);
       const apiMessage = err?.response?.data?.message;
@@ -112,8 +145,8 @@ export default function TasksPage() {
     setError('');
 
     try {
-      const result = await updateTask(taskId, { status: newStatus });
-      const updatedTask = result?.data;
+      const response = await updateTask(taskId, { status: newStatus });
+      const updatedTask = response.data;
 
       setTasks((prev) =>
         prev.map((task) =>
@@ -225,9 +258,9 @@ export default function TasksPage() {
                   value={status}
                   onChange={(e) => setStatus(e.target.value)}
                 >
-                  <option value="pending">Pendiente</option>
-                  <option value="in_progress">En progreso</option>
-                  <option value="completed">Completada</option>
+                  <option value="pendiente">Pendiente</option>
+                  <option value="en_progreso">En progreso</option>
+                  <option value="completada">Completada</option>
                 </select>
               </div>
             </div>
@@ -301,10 +334,18 @@ export default function TasksPage() {
                       value={task.status}
                       onChange={(e) => handleChangeStatus(task.id, e.target.value)}
                     >
-                      <option value="pending">Pendiente</option>
-                      <option value="in_progress">En progreso</option>
-                      <option value="completed">Completada</option>
+                      <option value="pendiente">Pendiente</option>
+                      <option value="en_progreso">En progreso</option>
+                      <option value="completada">Completada</option>
                     </select>
+
+                    <button
+                      type="button"
+                      onClick={() => handleEditTitle(task)}
+                      className="inline-flex items-center rounded border border-slate-300 bg-white px-2 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50"
+                    >
+                      Editar título
+                    </button>
 
                     <button
                       type="button"

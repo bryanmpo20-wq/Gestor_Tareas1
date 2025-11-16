@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    const storedToken = window.localStorage.getItem('gt_token');
+    const storedToken = window.localStorage.getItem('auth_token');
     if (storedToken) {
       setToken(storedToken);
     }
@@ -21,14 +21,14 @@ export function AuthProvider({ children }) {
   const login = (newToken) => {
     setToken(newToken);
     if (typeof window !== 'undefined') {
-      window.localStorage.setItem('gt_token', newToken);
+      window.localStorage.setItem('auth_token', newToken);
     }
   };
 
   const logout = () => {
     setToken(null);
     if (typeof window !== 'undefined') {
-      window.localStorage.removeItem('gt_token');
+      window.localStorage.removeItem('auth_token');
     }
   };
 

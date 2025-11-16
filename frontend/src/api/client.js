@@ -1,20 +1,7 @@
 import axios from 'axios';
 
-const client = axios.create({
-  baseURL: 'http://localhost:8000/api',
+const api = axios.create({
+  baseURL: 'http://localhost:3001',
 });
 
-client.interceptors.request.use((config) => {
-  if (typeof window !== 'undefined') {
-    const token = window.localStorage.getItem('gt_token');
-
-    if (token) {
-      config.headers = config.headers ?? {};
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-  }
-
-  return config;
-});
-
-export default client;
+export default api;

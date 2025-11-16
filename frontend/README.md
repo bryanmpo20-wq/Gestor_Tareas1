@@ -1,16 +1,66 @@
-# React + Vite
+# Frontend Gestor de Tareas
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend construido con React + Vite + TailwindCSS para el proyecto **Gestor de Tareas**.
 
-Currently, two official plugins are available:
+## Requisitos previos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Node.js 18+ (recomendado 20+)
 
-## React Compiler
+## Instalar dependencias
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+cd frontend
+npm install
+```
 
-## Expanding the ESLint configuration
+## Ejecutar en desarrollo
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+cd frontend
+npm run dev
+```
+
+Por defecto estará disponible en:
+
+- http://localhost:5173
+
+## Mock API (json-server)
+
+Este frontend ahora depende de una API falsa basada en `json-server`:
+
+- URL base: `http://localhost:3001`
+- Endpoint de tareas: `http://localhost:3001/tasks`
+
+Para arrancar la mock API:
+
+```bash
+cd frontend
+npm run mock-api
+```
+
+En paralelo, levanta el frontend con:
+
+```bash
+cd frontend
+npm run dev
+```
+
+Con ambos comandos corriendo podrás:
+
+- Abrir el login en `http://localhost:5173`.
+- Iniciar sesión con cualquier email/contraseña no vacíos (login 100% simulado en frontend).
+- Ser redirigido a la pantalla de tareas.
+- Ver, crear, editar y eliminar tareas contra `http://localhost:3001/tasks`.
+
+## Ejecutar con Docker
+
+Desde la raíz del repositorio:
+
+```bash
+docker build -t gestor_tareas_frontend ./frontend
+docker run --rm -it -p 5173:5173 gestor_tareas_frontend
+```
+
+Luego abre:
+
+- http://localhost:5173

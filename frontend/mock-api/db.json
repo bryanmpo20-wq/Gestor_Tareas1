@@ -1,0 +1,32 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Configurar proyecto Gestor de Tareas",
+      "description": "Revisar estructura del frontend y preparar entorno de desarrollo.",
+      "status": "pendiente",
+      "user_id": 1
+    },
+    {
+      "id": 2,
+      "title": "Implementar listado de tareas",
+      "description": "Conectar componente de tareas al mock API con json-server.",
+      "status": "en_progreso",
+      "user_id": 1
+    },
+    {
+      "id": 3,
+      "title": "Probar creación y edición",
+      "description": "Verificar que se puedan crear, editar y eliminar tareas desde la UI.",
+      "status": "completada",
+      "user_id": 1
+    },
+    {
+      "id": 4,
+      "title": "Revisar login simulado",
+      "description": "Asegurar que el flujo de login sólo use frontend y token falso.",
+      "status": "pendiente",
+      "user_id": 2
+    }
+  ]
+}
