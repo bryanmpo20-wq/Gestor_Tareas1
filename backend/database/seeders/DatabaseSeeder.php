@@ -3,23 +3,58 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Task;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Usuario demo fijo
+        $user = User::firstOrCreate(
+            ['email' => 'demo@example.com'],
+            [
+                'name' => 'Demo User',
+                'password' => bcrypt('password123'),
+            ]
+        );
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Tareas demo sin factories
+        $tasks = [
+            [
+                'title'       => 'Revisar correos',
+                'description' => 'Revisar los correos pendientes del día.',
+                'status'      => 'pending',
+            ],
+            [
+                'title'       => 'Llamar al cliente',
+                'description' => 'Llamar al cliente para confirmar la reunión.',
+                'status'      => 'in_progress',
+            ],
+            [
+                'title'       => 'Preparar informe',
+                'description' => 'Preparar informe semanal de tareas.',
+                'status'      => 'pending',
+            ],
+            [
+                'title'       => 'Actualizar tablero',
+                'description' => 'Actualizar el tablero de tareas en la web.',
+                'status'      => 'completed',
+            ],
+            [
+                'title'       => 'Reunión con el equipo',
+                'description' => 'Reunión rápida para revisar el sprint.',
+                'status'      => 'in_progress',
+            ],
+        ];
+
+        foreach ($tasks as $taskData) {
+            Task::create([
+                'user_id'     => $user->id,
+                'title'       => $taskData['title'],
+                'description' => $taskData['description'],
+                'status'      => $taskData['status'],
+            ]);
+        }
     }
 }

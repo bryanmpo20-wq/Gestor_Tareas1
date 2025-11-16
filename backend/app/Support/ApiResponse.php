@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Support;
+
+use Illuminate\Http\JsonResponse;
+
+class ApiResponse
+{
+    public static function success(
+        mixed $data = null,
+        string $message = 'OK',
+        int $status = 200
+    ): JsonResponse {
+        return response()->json([
+            'success' => true,
+            'message' => $message,
+            'data'    => $data,
+        ], $status);
+    }
+
+    public static function error(
+        string $message = 'Error',
+        int $status = 500,
+        mixed $errors = null
+    ): JsonResponse {
+        $payload = [
+            'success' => false,
+            'message' => $message,
+        ];
+
+        if (! is_null($errors)) {
+            $payload['errors'] = $errors;
+        }
+
+        return response()->json($payload, $status);
+    }
+}
