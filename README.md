@@ -1,234 +1,141 @@
-# 🚀 Gestor de Tareas – Full Stack
+# Gestor de Tareas – Full Stack
 
-[https://img.shields.io/badge/Laravel-11-FF2D20?style=for-the-badge&amp;logo=laravel](https://img.shields.io/badge/Laravel-11-FF2D20?style=for-the-badge&logo=laravel)
+### *Laravel + React + React Native + Docker + MySQL*
 
-[https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&amp;logo=react](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react)
+<div align="center">
 
-[https://img.shields.io/badge/Expo-50-000020?style=for-the-badge&amp;logo=expo](https://img.shields.io/badge/Expo-50-000020?style=for-the-badge&logo=expo)
+</div>
 
-[https://img.shields.io/badge/Docker-24-2496ED?style=for-the-badge&amp;logo=docker](https://img.shields.io/badge/Docker-24-2496ED?style=for-the-badge&logo=docker)
-[https://img.shields.io/badge/MySQL-8-4479A1?style=for-the-badge&amp;logo=mysql](https://img.shields.io/badge/MySQL-8-4479A1?style=for-the-badge&logo=mysql)
+Proyecto desarrollado como parte de la  **Prueba Técnica Full Stack** , implementando un sistema completo de gestión de tareas con tres interfaces:
 
-## 📍 Información del Proyecto
-
-**Repositorio:** [https://github.com/bryanmpo20-wq/Gestor_Tareas1.git](https://github.com/bryanmpo20-wq/Gestor_Tareas1.git)
-**Desarrollador:** Bryan Manuel Pineda Orozco
-**Email:** bryanmpo20@gmail.com
-
-**Sistema de gestión de tareas** desarrollado como parte de la  **Prueba Técnica Full Stack - BlueMedical
-Incluye backend robusto, interfaz web moderna y aplicación móvil nativa.**
+* **API Backend** en Laravel + Sanctum
+* **Frontend Web** en React + Vite + TailwindCSS
+* **App Móvil** en Expo / React Native
+* **Base de datos** MySQL
+* **Orquestado** con Docker Compose
 
 ---
 
-## 📋 Tabla de Contenidos
+# Índice
 
-* [✨ Características Principales]()
-* [🏗️ Arquitectura del Sistema]()
-* [🛠️ Stack Tecnológico]()
-* [🚀 Instalación Rápida]()
-* [📱 Demo y Acceso]()
-* [🔧 Configuración Detallada]()
-* [📚 Documentación de la API]()
-* [🎯 Funcionalidades por Módulo]()
-* [🤝 Contribución]()
-* [📄 Licencia]()
-
----
-
-## ✨ Características Principales
-
-### 🔐 **Sistema de Autenticación Avanzado**
-
-* ✅ **Registro seguro** de usuarios con validación
-* ✅ **Login con tokens JWT** mediante Laravel Sanctum
-* ✅ **Sesiones persistentes** en web y móvil
-* ✅ **Protección de rutas** y middlewares
-* ✅ **Logout seguro** con invalidación de tokens
-
-### 📝 **Gestión Completa de Tareas**
-
-* ✅ **CRUD completo** (Crear, Leer, Actualizar, Eliminar)
-* ✅ **Filtros avanzados** por estado, prioridad y fecha
-* ✅ **Búsqueda en tiempo real** en listas de tareas
-* ✅ **Marcado de completado** con actualización instantánea
-* ✅ **Prioridades visuales** (Alta, Media, Baja)
-
-### 📱 **Experiencia Multiplataforma**
-
-* ✅ **Web Responsive** con TailwindCSS
-* ✅ **App Móvil Nativa** con React Native
-* ✅ **Sincronización en tiempo real** entre plataformas
-* ✅ **Interfaz adaptativa** para diferentes dispositivos
-
-### 🛡️ **Seguridad y Rendimiento**
-
-* ✅ **API RESTful** con validación de datos
-* ✅ **Protección CORS** configurada
-* ✅ **Almacenamiento seguro** de tokens
-* ✅ **Optimización de consultas** a la base de datos
+1. [Tecnologías Utilizadas]
+2. [Arquitectura del Proyecto]
+3. [Credenciales de Prueba]
+4. [Instalación con Docker]
+5. [Comandos útiles de Docker]
+6. [Backend (Laravel)]
+7. [Frontend Web (React)]
+8. [Frontend Móvil (Expo--react-native)]
+9. [Rutas de la API]
+10. [Ejecutar sin Docker]
+11. [Licencia]
 
 ---
 
-## 🏗️ Arquitectura del Sistema
+# Tecnologías Utilizadas
 
-### 📁 Estructura del Proyecto
+### Backend
 
-**text**
+* Laravel 11
+* PHP 8.2
+* Sanctum
+* MySQL 8
+* Composer
+* Docker
 
-```
-Gestor_Tareas1/
-├── 🐘 backend/                 # API Laravel + MySQL + Sanctum
-│   ├── app/
-│   ├── database/
-│   ├── routes/
-│   └── tests/
-├── 🌐 frontend/                # React + Vite + Tailwind
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   └── hooks/
-├── 📱 gestor-tareas-mobile/    # Expo + React Native
-│   ├── src/
-│   │   ├── api/
-│   │   ├── store/
-│   │   ├── screens/
-│   │   ├── components/
-│   │   └── navigation/
-└── 🐳 docker/                  # Configuración de contenedores
-    ├── docker-compose.yml
-    └── configs/
-```
+### Frontend Web
+
+* React + Vite
+* TailwindCSS
+* Axios
+* React Router
+
+### Frontend Móvil
+
+* Expo / React Native
+* Axios
+* Zustand
+* SecureStore
 
 ---
 
-## 🛠️ Stack Tecnológico
+# Arquitectura del Proyecto
 
-### 🔧 **Backend**
+<pre class="overflow-visible!" data-start="2130" data-end="2354"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre!"><span><span>proyecto/
+├── backend/                   </span><span># API Laravel</span><span>
+├── frontend/                  </span><span># React + Vite</span><span>
+├── gestor-tareas-mobile/      </span><span># Expo / React Native</span><span>
+└── docker/                    </span><span># Configuración de contenedores</span><span>
+</span></span></code></div></div></pre>
 
-| Tecnología                                                                                                                   | Versión | Propósito             |
-| ----------------------------------------------------------------------------------------------------------------------------- | -------- | ---------------------- |
-| [https://img.shields.io/badge/PHP-8.2-777BB4?logo=php](https://img.shields.io/badge/PHP-8.2-777BB4?logo=php)                     | 8.2      | Lenguaje del servidor  |
-| [https://img.shields.io/badge/Laravel-11-FF2D20?logo=laravel](https://img.shields.io/badge/Laravel-11-FF2D20?logo=laravel)       | 11       | Framework PHP          |
-| [https://img.shields.io/badge/Sanctum-3.2-FF2D20?logo=laravel](https://img.shields.io/badge/Sanctum-3.2-FF2D20?logo=laravel)     | 3.2      | Autenticación API     |
-| [https://img.shields.io/badge/MySQL-8-4479A1?logo=mysql](https://img.shields.io/badge/MySQL-8-4479A1?logo=mysql)                 | 8.0      | Base de datos          |
-| [https://img.shields.io/badge/Composer-2.5-885630?logo=composer](https://img.shields.io/badge/Composer-2.5-885630?logo=composer) | 2.5      | Gestor de dependencias |
+### Servicios levantados
 
-### 🎨 **Frontend Web**
-
-| Tecnología                                                                                                                                 | Versión | Propósito    |
-| ------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------- |
-| [https://img.shields.io/badge/React-18-61DAFB?logo=react](https://img.shields.io/badge/React-18-61DAFB?logo=react)                             | 18       | Biblioteca UI |
-| [https://img.shields.io/badge/Vite-5.0-646CFF?logo=vite](https://img.shields.io/badge/Vite-5.0-646CFF?logo=vite)                               | 5.0      | Build tool    |
-| [https://img.shields.io/badge/Tailwind-3.4-06B6D4?logo=tailwindcss](https://img.shields.io/badge/Tailwind-3.4-06B6D4?logo=tailwindcss)         | 3.4      | Framework CSS |
-| [https://img.shields.io/badge/Axios-1.6-5A29E4?logo=axios](https://img.shields.io/badge/Axios-1.6-5A29E4?logo=axios)                           | 1.6      | Cliente HTTP  |
-| [https://img.shields.io/badge/React_Router-6.8-CA4245?logo=reactrouter](https://img.shields.io/badge/React_Router-6.8-CA4245?logo=reactrouter) | 6.8      | Navegación   |
-
-### 📱 **Frontend Móvil**
-
-| Tecnología                                                                                                                       | Versión | Propósito              |
-| --------------------------------------------------------------------------------------------------------------------------------- | -------- | ----------------------- |
-| [https://img.shields.io/badge/Expo-50-000020?logo=expo](https://img.shields.io/badge/Expo-50-000020?logo=expo)                       | 50       | Plataforma React Native |
-| [https://img.shields.io/badge/React_Native-0.73-61DAFB?logo=react](https://img.shields.io/badge/React_Native-0.73-61DAFB?logo=react) | 0.73     | Framework móvil        |
-| [https://img.shields.io/badge/Zustand-4.4-6140EF](https://img.shields.io/badge/Zustand-4.4-6140EF)                                   | 4.4      | Gestión de estado      |
-| [https://img.shields.io/badge/React_Navigation-6.0-61DAFB](https://img.shields.io/badge/React_Navigation-6.0-61DAFB)                 | 6.0      | Navegación móvil      |
-| [https://img.shields.io/badge/SecureStore-12.0-000020](https://img.shields.io/badge/SecureStore-12.0-000020)                         | 12.0     | Almacenamiento seguro   |
-
-### 🐳 **Infraestructura**
-
-| Tecnología                                                                                                                           | Versión | Propósito    |
-| ------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------- |
-| [https://img.shields.io/badge/Docker-24.0-2496ED?logo=docker](https://img.shields.io/badge/Docker-24.0-2496ED?logo=docker)               | 24.0     | Contenedores  |
-| [https://img.shields.io/badge/Docker_Compose-2.0-2496ED?logo=docker](https://img.shields.io/badge/Docker_Compose-2.0-2496ED?logo=docker) | 2.0      | Orquestación |
+| Servicio                  | Puerto   | Descripción                 |
+| ------------------------- | -------- | ---------------------------- |
+| **Backend Laravel** | `8000` | API REST                     |
+| **Frontend Web**    | `5173` | Interfaz React               |
+| **MySQL**           | `3306` | Base de datos                |
+| **Expo Mobile**     | QR       | Carga en dispositivo Android |
 
 ---
 
-## 🚀 Instalación Rápida
+# Credenciales de Prueba
 
-### 📥 Clonar el Repositorio
+| Usuario                            | Contraseña         |
+| ---------------------------------- | ------------------- |
+| **[adminprueba@example.com]()** | **Admin123!** |
 
-**bash**
+---
 
-```
-git clone https://github.com/bryanmpo20-wq/Gestor_Tareas1.git
-cd Gestor_Tareas1
-```
+# Instalación con Docker
 
-### 🐳 Ejecutar con Docker (Recomendado)
+Desde la raíz del proyecto:
 
-**bash**
-
-```
-# Levantar todos los servicios
-docker compose down
+<pre class="overflow-visible!" data-start="2835" data-end="2895"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>docker compose down
 docker compose up --build -d
+</span></span></code></div></div></pre>
 
-# Verificar que todos los servicios estén corriendo
-docker ps
-```
+Esto iniciará:
 
-### ⏱️ Tiempos de Inicio
-
-| Servicio           | Puerto | Tiempo Aproximado | Estado     |
-| ------------------ | ------ | ----------------- | ---------- |
-| 🐘 MySQL Database  | 3306   | 10-15 segundos    | ✅ Estable |
-| 🚀 Backend Laravel | 8000   | 20-30 segundos    | ✅ Listo   |
-| 🌐 Frontend React  | 5173   | 10-20 segundos    | ✅ Activo  |
+* Backend → [http://localhost:8000](http://localhost:8000)
+* Frontend → [http://localhost:5173](http://localhost:5173)
+* MySQL
+* Servicios listos para evaluación
 
 ---
 
-## 📱 Demo y Acceso
+# Comandos útiles de Docker
 
-### 🌐 **Frontend Web**
+### Construir y levantar todo
 
-**URL:** [http://localhost:5173](http://localhost:5173/)
-**Credenciales de prueba:**
+<pre class="overflow-visible!" data-start="3105" data-end="3145"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>docker compose up -d --build
+</span></span></code></div></div></pre>
 
-* 📧 **Email:** `adminprueba@example.com`
-* 🔑 **Contraseña:** `Admin123!`
+### Construir solo el frontend
 
-### 🚀 **Backend API**
+<pre class="overflow-visible!" data-start="3182" data-end="3223"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>docker compose build frontend
+</span></span></code></div></div></pre>
 
-**URL Base:** [http://localhost:8000](http://localhost:8000/)
-**Documentación API:** [http://localhost:8000/api/documentation](http://localhost:8000/api/documentation)
+### Levantar contenedores sin reconstruir
 
-### 📲 **Aplicación Móvil**
+<pre class="overflow-visible!" data-start="3271" data-end="3303"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>docker compose up -d
+</span></span></code></div></div></pre>
 
-1. **Instalar Expo Go** en tu dispositivo móvil
-2. **Ejecutar:** `cd gestor-tareas-mobile && npx expo start`
-3. **Escanear el código QR** con la app Expo Go
-4. **Configurar IP** del backend en `src/api/client.js`
+### Detener y eliminar contenedores
+
+<pre class="overflow-visible!" data-start="3346" data-end="3377"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>docker compose down
+</span></span></code></div></div></pre>
 
 ---
 
-## 🔧 Configuración Detallada
+# Backend (Laravel)
 
-### 🐘 Configuración del Backend
+## Variables de entorno (`backend/.env.docker`)
 
-**bash**
-
-```
-# Acceder al contenedor del backend
-docker exec -it gestor_tareas_backend bash
-
-# Generar clave de aplicación
-php artisan key:generate
-
-# Ejecutar migraciones y seeders
-php artisan migrate --seed
-
-# Ejecutar tests
-php artisan test
-```
-
-### 🔑 Variables de Entorno Críticas
-
-**env**
-
-```
-# Backend (.env)
-APP_NAME=GestorTareas
+<pre class="overflow-visible!" data-start="3458" data-end="3670"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-env"><span>APP_NAME=GestorTareas
 APP_ENV=local
-APP_KEY=base64:your_generated_key_here
+APP_KEY=
+APP_DEBUG=true
 APP_URL=http://localhost:8000
 
 DB_CONNECTION=mysql
@@ -237,154 +144,143 @@ DB_PORT=3306
 DB_DATABASE=gestor_tareas
 DB_USERNAME=gestor
 DB_PASSWORD=gestor123
+</span></code></div></div></pre>
 
-# Frontend Móvil (src/api/client.js)
-export const API_BASE_URL = "http://TU_IP_LOCAL:8000/api";
-```
+### Generar APP_KEY
 
----
+<pre class="overflow-visible!" data-start="3696" data-end="3770"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>docker </span><span>exec</span><span> -it gestor_tareas_backend php artisan key:generate
+</span></span></code></div></div></pre>
 
-## 📚 Documentación de la API
+### Migraciones + seeders
 
-### 🔐 Endpoints de Autenticación
-
-| Método  | Endpoint          | Descripción           | Parámetros                       |
-| -------- | ----------------- | ---------------------- | --------------------------------- |
-| `POST` | `/api/login`    | Iniciar sesión        | `email`, `password`           |
-| `POST` | `/api/register` | Registrar usuario      | `name`, `email`, `password` |
-| `POST` | `/api/logout`   | Cerrar sesión         | `token`                         |
-| `GET`  | `/api/user`     | Obtener usuario actual | `token`                         |
-
-### 📝 Endpoints de Tareas
-
-| Método    | Endpoint                     | Descripción           | Parámetros                                            |
-| ---------- | ---------------------------- | ---------------------- | ------------------------------------------------------ |
-| `GET`    | `/api/tasks`               | Listar tareas          | `filters`                                            |
-| `POST`   | `/api/tasks`               | Crear tarea            | `title`, `description`, `due_date`, `priority` |
-| `PUT`    | `/api/tasks/{id}`          | Actualizar tarea       | `task_data`                                          |
-| `DELETE` | `/api/tasks/{id}`          | Eliminar tarea         | `id`                                                 |
-| `PATCH`  | `/api/tasks/{id}/complete` | Marcar como completada | `id`                                                 |
-
-### 🔗 Ejemplos de Uso
-
-**javascript**
-
-```
-// Login de usuario
-const response = await fetch('http://localhost:8000/api/login', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-    },
-    body: JSON.stringify({
-        email: 'adminprueba@example.com',
-        password: 'Admin123!'
-    })
-});
-
-// Obtener tareas con filtro
-const tasks = await fetch('http://localhost:8000/api/tasks?filter=completed', {
-    headers: {
-        'Authorization': `Bearer ${token}`,
-        'Accept': 'application/json'
-    }
-});
-```
+<pre class="overflow-visible!" data-start="3802" data-end="3878"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>docker </span><span>exec</span><span> -it gestor_tareas_backend php artisan migrate --seed
+</span></span></code></div></div></pre>
 
 ---
 
-## 🎯 Funcionalidades por Módulo
+# Frontend Web (React)
 
-### 🌐 **Frontend Web (React)**
+## Estructura
 
-| Funcionalidad              | Estado     | Características                   |
-| -------------------------- | ---------- | ---------------------------------- |
-| ✅**Autenticación** | Completado | Login, registro, logout protegido  |
-| ✅**Dashboard**      | Completado | Vista general de tareas            |
-| ✅**CRUD Tareas**    | Completado | Crear, editar, eliminar, listar    |
-| ✅**Filtros**        | Completado | Por estado, prioridad, fecha       |
-| ✅**UI/UX**          | Completado | Responsive, TailwindCSS, dark mode |
-| ✅**Validaciones**   | Completado | Formularios con feedback           |
+<pre class="overflow-visible!" data-start="3927" data-end="3979"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre!"><span><span>frontend/src/pages/
+frontend/src/components/
+</span></span></code></div></div></pre>
 
-### 📱 **Frontend Móvil (React Native)**
+## Funcionalidades Implementadas
 
-| Funcionalidad               | Estado     | Características       |
-| --------------------------- | ---------- | ---------------------- |
-| ✅**Autenticación**  | Completado | Login con SecureStore  |
-| ✅**Gestión Estado** | Completado | Zustand stores         |
-| ✅**Navegación**     | Completado | Stack y Tab navigation |
-| ✅**CRUD Tareas**     | Completado | Operaciones completas  |
-| ✅**Sincronización** | Completado | API real-time          |
-| ✅**Offline Ready**   | Parcial    | Cache básico          |
+| Funcionalidad  | Estado |
+| -------------- | ------ |
+| Login / Logout | ✔     |
+| Registro       | ✔     |
+| CRUD de tareas | ✔     |
+| Filtros        | ✔     |
+| UI Responsive  | ✔     |
+| Dockerfile     | ✔     |
 
-### 🚀 **Backend (Laravel)**
+## Dockerfile
 
-| Funcionalidad              | Estado     | Características       |
-| -------------------------- | ---------- | ---------------------- |
-| ✅**API REST**       | Completado | Endpoints documentados |
-| ✅**Autenticación** | Completado | Sanctum tokens         |
-| ✅**Base de Datos**  | Completado | Migraciones, seeders   |
-| ✅**Validaciones**   | Completado | Request validation     |
-| ✅**Seguridad**      | Completado | CORS, middlewares      |
-| ✅**Testing**        | Básico    | Tests unitarios        |
+<pre class="overflow-visible!" data-start="4204" data-end="4394"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-dockerfile"><span>FROM node:22-alpine
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm install
+COPY . .
+EXPOSE 5173
+CMD ["npm", "run", "dev", "--", "--host", "--strictPort=false"]
+</span></code></div></div></pre>
 
 ---
 
-## 🤝 Contribución
+# Frontend Móvil (Expo / React Native)
 
-### 📝 ¿Cómo Contribuir?
+### Estructura
 
-1. **Fork** el proyecto
-2. **Crea una rama** para tu feature (`git checkout -b feature/AmazingFeature`)
-3. **Commit** tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. **Push** a la rama (`git push origin feature/AmazingFeature`)
-5. **Abre un Pull Request**
+<pre class="overflow-visible!" data-start="4460" data-end="4611"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre!"><span><span>gestor-tareas-mobile/
+├── </span><span>src</span><span>/
+│   ├── api/
+│   ├── store/
+│   ├── screens/
+│   ├── navigation/
+│   ├── components/
+│   └── app</span><span>.json</span><span>
+└── App</span><span>.js</span><span>
+</span></span></code></div></div></pre>
 
-### 🐛 Reportar Issues
+### Autenticación móvil
 
-Si encuentras algún bug o tienes una sugerencia:
+✔ Token persistente (SecureStore)
 
-1. Ve a la sección [Issues](https://github.com/bryanmpo20-wq/Gestor_Tareas1/issues)
-2. Revisa si el issue ya existe
-3. Crea un nuevo issue con la plantilla correspondiente
+✔ Estado global con Zustand
 
-### 📋 Estándares de Código
+✔ Login real contra API
 
-* **PHP:** Seguir PSR-12
-* **JavaScript:** Usar ESLint y Prettier
-* **Commits:** Convencional Commits
-* **Documentación:** Mantener actualizado el README
+✔ Manejo de errores y loading
 
----
+### Ejecutar la app móvil
 
-## 📄 Licencia
+Configurar backend:
 
-Este proyecto fue desarrollado como parte de la  **Prueba Técnica Full Stack – El Roble** .
+`src/api/client.js`
 
-### 📊 Estado del Proyecto
+<pre class="overflow-visible!" data-start="4829" data-end="4897"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-js"><span><span>export</span><span></span><span>const</span><span></span><span>API_BASE_URL</span><span> = </span><span>"http://TU_IP_LOCAL:8000/api"</span><span>;
+</span></span></code></div></div></pre>
 
-[https://img.shields.io/badge/Estado-Completado-success](https://img.shields.io/badge/Estado-Completado-success)
-[https://img.shields.io/badge/Versi%C3%B3n-1.0.0-blue](https://img.shields.io/badge/Versi%C3%B3n-1.0.0-blue)
-[https://img.shields.io/badge/Actualizado-Diciembre%25202023-informational](https://img.shields.io/badge/Actualizado-Diciembre%25202023-informational)
+⚠ *El móvil NO puede usar localhost de la PC.*
 
-### 👨‍💻 Desarrollador
+Ejecutar:
 
-**Bryan Manuel Pineda Orozco**
-📧 bryanmpo20@gmail.com
-🔗 [GitHub](https://github.com/bryanmpo20-wq)
-💼 [Portfolio](https://bryanpineda.dev/) *[Próximamente]*
+<pre class="overflow-visible!" data-start="4958" data-end="4984"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>npx expo start
+</span></span></code></div></div></pre>
 
 ---
 
-## 🎉 ¡Gracias por revisar este proyecto!
+# Rutas de la API
 
-Si tienes alguna pregunta o feedback, no dudes en contactarme. Estaré encantado de responder cualquier consulta sobre el desarrollo, arquitectura o implementación de este sistema full stack.
+| Método | Ruta            | Descripción |
+| ------- | --------------- | ------------ |
+| POST    | /api/login      | Login        |
+| POST    | /api/register   | Registro     |
+| GET     | /api/tasks      | Listado      |
+| POST    | /api/tasks      | Crear        |
+| PUT     | /api/tasks/{id} | Editar       |
+| DELETE  | /api/tasks/{id} | Eliminar     |
 
 ---
 
-<div align="center">**¿Te gustó el proyecto? ¡Dale una ⭐ en GitHub!**
+# Ejecutar sin Docker
 
-[](https://github.com/bryanmpo20-wq/Gestor_Tareas1/stargazers)[https://img.shields.io/github/stars/bryanmpo20-wq/Gestor_Tareas1?style=social](https://img.shields.io/github/stars/bryanmpo20-wq/Gestor_Tareas1?style=social)
+## Backend
 
-</div>
+<pre class="overflow-visible!" data-start="5322" data-end="5452"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>cd</span><span> backend
+composer install
+</span><span>cp</span><span> .env.example .</span><span>env</span><span>
+php artisan key:generate
+php artisan migrate --seed
+php artisan serve
+</span></span></code></div></div></pre>
+
+## Frontend Web
+
+<pre class="overflow-visible!" data-start="5470" data-end="5517"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>cd</span><span> frontend
+npm install
+npm run dev
+</span></span></code></div></div></pre>
+
+## App Móvil
+
+<pre class="overflow-visible!" data-start="5532" data-end="5594"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>cd</span><span> gestor-tareas-mobile
+
+npm install
+npx expo start
+</span></span></code></div></div></pre>
+
+---
+
+# Licencia
+
+Proyecto de prueba desarrollado para la  **Prueba Técnica Full Stack** .
+
+# Nota personal
+
+Debido al cierre de ciclo universitario y a la carga académica correspondiente, no fue posible implementar todas las funcionalidades adicionales y bonus solicitados en el documento original. Me habría gustado incluir más diseño, mejorar la arquitectura interna del sistema e incluso explorar la posibilidad de agregar microservicios; sin embargo, por falta de tiempo no fue viable extender el desarrollo más allá del alcance actual.
+
+Aun así, el proyecto se entrega funcional en sus módulos principales.
