@@ -1,40 +1,24 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext.jsx';
-import { UiProvider } from './context/UiContext.jsx';
-import TopProgressBar from './components/TopProgressBar.jsx';
-import { useAuth } from './hooks/useAuth.js';
-import LoginPage from './pages/LoginPage.jsx';
-import TasksPage from './pages/TasksPage.jsx';
+// src/App.jsx
+import { Routes, Route } from "react-router-dom";
 
-function PrivateRoute({ children }) {
-  const { token } = useAuth();
-
-  if (!token) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return children;
-}
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import TasksPage from "./pages/TasksPage";
 
 function App() {
   return (
-    <AuthProvider>
-      <UiProvider>
-        <TopProgressBar />
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route
-            path="/tasks"
-            element={(
-              <PrivateRoute>
-                <TasksPage />
-              </PrivateRoute>
-            )}
-          />
-          <Route path="*" element={<Navigate to="/tasks" replace />} />
-        </Routes>
-      </UiProvider>
-    </AuthProvider>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+
+      {/* RUTA QUE FALTABA */}
+      <Route path="/tasks" element={<TasksPage />} />
+
+      {/* Opcional: alias si en algún lado usas /tareas */}
+      <Route path="/tareas" element={<TasksPage />} />
+    </Routes>
   );
 }
 

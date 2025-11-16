@@ -1,356 +1,309 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth.js';
-import { useUi } from '../hooks/useUi.js';
-import {
-  getTasks,
-  createTask,
-  updateTask,
-  deleteTask,
-} from '../services/taskService.js';
+// src/pages/TasksPage.jsx
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const STATUS_FILTERS = [
-  { value: 'all', label: 'Todas' },
-  { value: 'pendiente', label: 'Pendientes' },
-  { value: 'en_progreso', label: 'En progreso' },
-  { value: 'completada', label: 'Completadas' },
+const initialTasks = [
+  {
+    id: 1,
+    title: "Revisar pendientes del día",
+    description: "Organizar tareas urgentes y revisar correos.",
+    status: "pendiente",
+  },
+  {
+    id: 2,
+    title: "Actualizar documentación",
+    description: "Subir cambios del Gestor de Tareas al README.",
+    status: "en_progreso",
+  },
+  {
+    id: 3,
+    title: "Enviar reporte",
+    description: "Enviar avance del proyecto al líder técnico.",
+    status: "completada",
+  },
 ];
 
-const STATUS_LABELS = {
-  pendiente: 'Pendiente',
-  en_progreso: 'En progreso',
-  completada: 'Completada',
-};
-
-const STATUS_BADGE_CLASSES = {
-  pendiente: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-  en_progreso: 'bg-blue-100 text-blue-800 border-blue-200',
-  completada: 'bg-green-100 text-green-800 border-green-200',
-};
+const statusOptions = [
+  { value: "pendiente", label: "Pendiente" },
+  { value: "en_progreso", label: "En progreso" },
+  { value: "completada", label: "Completada" },
+];
 
 export default function TasksPage() {
-  const { logout } = useAuth();
-  const { startLoading, stopLoading } = useUi();
   const navigate = useNavigate();
 
-  const [tasks, setTasks] = useState([]);
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [status, setStatus] = useState('pendiente');
-  const [error, setError] = useState('');
+  const [tasks, setTasks] = useState(initialTasks);
+  const [filter, setFilter] = useState("todas");
+  const [editingId, setEditingId] = useState(null);
+  const [form, setForm] = useState({
+    title: "",
+    description: "",
+    status: "pendiente",
+  });
 
-  const loadTasks = async (filter = statusFilter) => {
-    startLoading();
-    setError('');
+  const filteredTasks =
+    filter === "todas"
+      ? tasks
+      : tasks.filter((t) => t.status === filter);
 
-    try {
-      const params = {};
-      if (filter !== 'all') {
-        params.status = filter;
-      }
-
-      const response = await getTasks(params);
-      const result = response.data;
-      setTasks(Array.isArray(result) ? result : []);
-    } catch (err) {
-      console.error('Error al cargar tareas', err);
-      const apiMessage = err?.response?.data?.message;
-      setError(apiMessage || 'No se pudieron cargar las tareas.');
-    } finally {
-      stopLoading();
-    }
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  const handleEditTitle = async (task) => {
-    const currentTitle = task.title ?? '';
-    const newTitle = window.prompt('Nuevo título de la tarea:', currentTitle);
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-    if (newTitle == null) {
-      return;
-    }
+    if (!form.title.trim()) return;
 
-    const trimmed = newTitle.trim();
-    if (!trimmed || trimmed === currentTitle) {
-      return;
-    }
-
-    startLoading();
-    setError('');
-
-    try {
-      const response = await updateTask(task.id, { title: trimmed });
-      const updatedTask = response.data;
-
+    if (editingId) {
+      // editar
       setTasks((prev) =>
         prev.map((t) =>
-          t.id === task.id ? updatedTask ?? { ...t, title: trimmed } : t,
-        ),
+          t.id === editingId ? { ...t, ...form } : t
+        )
       );
-    } catch (err) {
-      console.error('Error al actualizar título de tarea', err);
-      const apiMessage = err?.response?.data?.message;
-      setError(apiMessage || 'No se pudo actualizar el título de la tarea.');
-    } finally {
-      stopLoading();
-    }
-  };
-
-  useEffect(() => {
-    loadTasks();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const handleCreateTask = async (event) => {
-    event.preventDefault();
-
-    if (!title.trim()) {
-      setError('El título es obligatorio.');
-      return;
-    }
-
-    startLoading();
-    setError('');
-
-    try {
-      const payload = {
-        title: title.trim(),
-        description: description.trim() || null,
-        status,
+    } else {
+      // crear
+      const newTask = {
+        id: Date.now(),
+        ...form,
       };
-
-      const response = await createTask(payload);
-      const newTask = response.data;
-
-      if (!newTask) {
-        await loadTasks('all');
-      } else {
-        setTasks((prev) => [newTask, ...prev]);
-      }
-
-      setTitle('');
-      setDescription('');
-      setStatus('pendiente');
-    } catch (err) {
-      console.error('Error al crear tarea', err);
-      const apiMessage = err?.response?.data?.message;
-      setError(apiMessage || 'No se pudo crear la tarea.');
-    } finally {
-      stopLoading();
+      setTasks((prev) => [newTask, ...prev]);
     }
+
+    // limpiar formulario
+    setForm({
+      title: "",
+      description: "",
+      status: "pendiente",
+    });
+    setEditingId(null);
   };
 
-  const handleChangeStatus = async (taskId, newStatus) => {
-    startLoading();
-    setError('');
-
-    try {
-      const response = await updateTask(taskId, { status: newStatus });
-      const updatedTask = response.data;
-
-      setTasks((prev) =>
-        prev.map((task) =>
-          task.id === taskId
-            ? updatedTask ?? { ...task, status: newStatus }
-            : task,
-        ),
-      );
-    } catch (err) {
-      console.error('Error al actualizar estado de tarea', err);
-      const apiMessage = err?.response?.data?.message;
-      setError(apiMessage || 'No se pudo actualizar la tarea.');
-    } finally {
-      stopLoading();
-    }
+  const handleEdit = (task) => {
+    setEditingId(task.id);
+    setForm({
+      title: task.title,
+      description: task.description,
+      status: task.status,
+    });
   };
 
-  const handleDeleteTask = async (taskId) => {
-    startLoading();
-    setError('');
-
-    try {
-      await deleteTask(taskId);
-      setTasks((prev) => prev.filter((task) => task.id !== taskId));
-    } catch (err) {
-      console.error('Error al eliminar tarea', err);
-      const apiMessage = err?.response?.data?.message;
-      setError(apiMessage || 'No se pudo eliminar la tarea.');
-    } finally {
-      stopLoading();
+  const handleDelete = (id) => {
+    if (!confirm("¿Eliminar esta tarea?")) return;
+    setTasks((prev) => prev.filter((t) => t.id !== id));
+    if (editingId === id) {
+      setEditingId(null);
+      setForm({
+        title: "",
+        description: "",
+        status: "pendiente",
+      });
     }
-  };
-
-  const handleChangeFilter = (value) => {
-    setStatusFilter(value);
-    loadTasks(value);
   };
 
   const handleLogout = () => {
-    logout();
-    navigate('/login', { replace: true });
+    // por si estás guardando token
+    localStorage.removeItem("token");
+    navigate("/login");
   };
 
   return (
-    <div className="min-h-screen bg-slate-100">
-      <header className="border-b bg-white">
-        <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
-          <h1 className="text-lg font-semibold text-slate-900">
-            Gestor de Tareas
-          </h1>
-          <button
-            type="button"
-            onClick={handleLogout}
-            className="inline-flex items-center rounded border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50"
-          >
-            Cerrar sesión
-          </button>
+    <div className="min-h-screen bg-slate-950 text-slate-100">
+      {/* Header */}
+      <header className="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md">
+        <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+          <div>
+            <h1 className="text-xl font-semibold">
+              Gestor de Tareas
+            </h1>
+            <p className="text-sm text-slate-400">
+              Listado de tareas (mock local) con filtro y CRUD básico.
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-slate-300">
+              Usuario autenticado
+            </span>
+            <button
+              onClick={handleLogout}
+              className="text-sm px-3 py-1.5 rounded-full border border-slate-600 hover:bg-slate-800 transition"
+            >
+              Cerrar sesión
+            </button>
+          </div>
         </div>
       </header>
 
-      <main className="mx-auto max-w-4xl px-4 py-6 space-y-6">
-        <section className="bg-white rounded shadow-sm p-4">
-          <h2 className="text-base font-semibold text-slate-900 mb-4">
-            Nueva tarea
+      {/* Contenido */}
+      <main className="max-w-5xl mx-auto px-4 py-6 grid gap-6 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1.8fr)]">
+        {/* Formulario */}
+        <section className="bg-slate-900 rounded-2xl border border-slate-800 p-5">
+          <h2 className="text-lg font-semibold mb-4">
+            {editingId ? "Editar tarea" : "Nueva tarea"}
           </h2>
 
-          {error && (
-            <div className="mb-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
-              {error}
+          <form className="space-y-4" onSubmit={handleSubmit}>
+            <div>
+              <label className="block text-sm mb-1">
+                Título
+              </label>
+              <input
+                type="text"
+                name="title"
+                value={form.title}
+                onChange={handleChange}
+                className="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                placeholder="Ej. Implementar login"
+                required
+              />
             </div>
-          )}
 
-          <form onSubmit={handleCreateTask} className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-slate-700 mb-1" htmlFor="title">
-                  Título
-                </label>
-                <input
-                  id="title"
-                  type="text"
-                  className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  required
-                />
-              </div>
+            <div>
+              <label className="block text-sm mb-1">
+                Descripción
+              </label>
+              <textarea
+                name="description"
+                value={form.description}
+                onChange={handleChange}
+                rows={3}
+                className="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                placeholder="Detalles de la tarea..."
+              />
+            </div>
 
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-slate-700 mb-1" htmlFor="description">
-                  Descripción
-                </label>
-                <textarea
-                  id="description"
-                  className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  rows={3}
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </div>
+            <div>
+              <label className="block text-sm mb-1">
+                Estado
+              </label>
+              <select
+                name="status"
+                value={form.status}
+                onChange={handleChange}
+                className="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              >
+                {statusOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1" htmlFor="status">
-                  Estado
-                </label>
-                <select
-                  id="status"
-                  className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  value={status}
-                  onChange={(e) => setStatus(e.target.value)}
+            <div className="flex gap-3">
+              <button
+                type="submit"
+                className="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-sm font-semibold"
+              >
+                {editingId ? "Guardar cambios" : "Crear tarea"}
+              </button>
+
+              {editingId && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEditingId(null);
+                    setForm({
+                      title: "",
+                      description: "",
+                      status: "pendiente",
+                    });
+                  }}
+                  className="px-4 py-2 rounded-lg border border-slate-600 text-sm hover:bg-slate-800"
                 >
-                  <option value="pendiente">Pendiente</option>
-                  <option value="en_progreso">En progreso</option>
-                  <option value="completada">Completada</option>
-                </select>
-              </div>
+                  Cancelar edición
+                </button>
+              )}
             </div>
-
-            <button
-              type="submit"
-              className="inline-flex items-center rounded bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
-            >
-              Crear tarea
-            </button>
           </form>
         </section>
 
-        <section className="bg-white rounded shadow-sm p-4">
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-            <h2 className="text-base font-semibold text-slate-900">
-              Tareas
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              {STATUS_FILTERS.map((filter) => (
+        {/* Listado + filtros */}
+        <section className="bg-slate-900 rounded-2xl border border-slate-800 p-5">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
+            <h2 className="text-lg font-semibold">Mis tareas</h2>
+
+            <div className="flex flex-wrap gap-2 text-sm">
+              <button
+                onClick={() => setFilter("todas")}
+                className={`px-3 py-1.5 rounded-full border ${
+                  filter === "todas"
+                    ? "bg-emerald-500 border-emerald-500"
+                    : "border-slate-700 hover:bg-slate-800"
+                }`}
+              >
+                Todas
+              </button>
+              {statusOptions.map((opt) => (
                 <button
-                  key={filter.value}
-                  type="button"
-                  onClick={() => handleChangeFilter(filter.value)}
-                  className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium ${
-                    statusFilter === filter.value
-                      ? 'border-blue-600 bg-blue-50 text-blue-700'
-                      : 'border-slate-300 bg-white text-slate-700 hover:bg-slate-50'
+                  key={opt.value}
+                  onClick={() => setFilter(opt.value)}
+                  className={`px-3 py-1.5 rounded-full border ${
+                    filter === opt.value
+                      ? "bg-emerald-500 border-emerald-500"
+                      : "border-slate-700 hover:bg-slate-800"
                   }`}
                 >
-                  {filter.label}
+                  {opt.label}
                 </button>
               ))}
             </div>
           </div>
 
-          {tasks.length === 0 ? (
-            <p className="text-sm text-slate-500">
-              No hay tareas para mostrar.
+          {filteredTasks.length === 0 ? (
+            <p className="text-sm text-slate-400">
+              No hay tareas para este filtro.
             </p>
           ) : (
             <ul className="space-y-3">
-              {tasks.map((task) => (
+              {filteredTasks.map((task) => (
                 <li
                   key={task.id}
-                  className="rounded border border-slate-200 bg-white px-3 py-2 flex items-start justify-between gap-3"
+                  className="border border-slate-800 rounded-xl p-4 bg-slate-950/60 flex flex-col gap-2"
                 >
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="text-sm font-semibold text-slate-900">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <h3 className="font-semibold">
                         {task.title}
                       </h3>
-                      <span
-                        className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${
-                          STATUS_BADGE_CLASSES[task.status] || 'border-slate-200 bg-slate-50 text-slate-700'
-                        }`}
-                      >
-                        {STATUS_LABELS[task.status] || task.status}
-                      </span>
+                      {task.description && (
+                        <p className="text-sm text-slate-300 mt-1">
+                          {task.description}
+                        </p>
+                      )}
                     </div>
-                    {task.description && (
-                      <p className="text-xs text-slate-600">
-                        {task.description}
-                      </p>
-                    )}
+
+                    <span
+                      className={`text-xs px-2 py-1 rounded-full ${
+                        task.status === "pendiente"
+                          ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
+                          : task.status === "en_progreso"
+                          ? "bg-sky-500/20 text-sky-300 border border-sky-500/40"
+                          : "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
+                      }`}
+                    >
+                      {
+                        statusOptions.find(
+                          (s) => s.value === task.status
+                        )?.label
+                      }
+                    </span>
                   </div>
 
-                  <div className="flex flex-col items-end gap-2">
-                    <select
-                      className="rounded border border-slate-300 px-2 py-1 text-xs focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      value={task.status}
-                      onChange={(e) => handleChangeStatus(task.id, e.target.value)}
-                    >
-                      <option value="pendiente">Pendiente</option>
-                      <option value="en_progreso">En progreso</option>
-                      <option value="completada">Completada</option>
-                    </select>
-
+                  <div className="flex gap-2 mt-2 text-sm">
                     <button
-                      type="button"
-                      onClick={() => handleEditTitle(task)}
-                      className="inline-flex items-center rounded border border-slate-300 bg-white px-2 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50"
+                      onClick={() => handleEdit(task)}
+                      className="px-3 py-1 rounded-lg border border-slate-700 hover:bg-slate-800"
                     >
-                      Editar título
+                      Editar
                     </button>
-
                     <button
-                      type="button"
-                      onClick={() => handleDeleteTask(task.id)}
-                      className="inline-flex items-center rounded border border-red-300 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 hover:bg-red-100"
+                      onClick={() => handleDelete(task.id)}
+                      className="px-3 py-1 rounded-lg bg-red-500/80 hover:bg-red-500"
                     >
                       Eliminar
                     </button>
